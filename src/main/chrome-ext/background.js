@@ -31,7 +31,14 @@ chrome.webRequest.onBeforeRequest.addListener(
                     }
                     chrome.storage.sync.set({photoURIs: photoURIs}, function () {
                         console.log("Updated photoURIs: ", photoURIs);
-                    })
+                    });
+
+                    chrome.tabs.query({title: 'Looking Glass Tutorial'}, function(tabs) {
+                        chrome.tabs.executeScript(
+                            tabs[0].id,
+                            {code: 'location.href = \'javascript:updatePhotos(' + JSON.stringify(photoURIs) + ')\''}
+                        );
+                    });
                 })
         }
         return {cancel: false};

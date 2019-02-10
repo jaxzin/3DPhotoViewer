@@ -244,8 +244,11 @@
 
     function updatePhotos(newPhotos) {
         photos = newPhotos;
-        selectedPhoto = 0;
-        loadGLB(photos[selectedPhoto]);
+        // Only load a scene if there isn't one selected already
+        if(!fbPhotoScene) {
+            selectedPhoto = photos.length-1;
+            loadGLB(photos[selectedPhoto]);
+        }
     }
 
     window.addEventListener("message", function(event) {
