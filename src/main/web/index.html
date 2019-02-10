@@ -245,7 +245,7 @@
     function updatePhotos(newPhotos) {
         photos = newPhotos;
         selectedPhoto = 0;
-        loadGLB(event.data[0]);
+        loadGLB(photos[selectedPhoto]);
     }
 
     window.addEventListener("message", function(event) {
