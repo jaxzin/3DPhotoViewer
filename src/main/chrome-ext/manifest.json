@@ -1,0 +1,28 @@
+{
+  "name": "Facebook 3D Photo Viewer for Looking Glass",
+  "version": "1.0",
+  "description": "Facebook 3D Photo Viewer for the Looking Glass holographic display.",
+  "permissions": ["tabs", "webRequest", "activeTab","declarativeContent","storage", "http://*/",
+    "https://*/"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/get_started16.png",
+      "32": "images/get_started32.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
+    }
+  },
+  "icons": {
+    "16": "images/get_started16.png",
+    "32": "images/get_started32.png",
+    "48": "images/get_started48.png",
+    "128": "images/get_started128.png"
+  },
+  "options_page": "options.html",
+  "manifest_version": 2
+}
