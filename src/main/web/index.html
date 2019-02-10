@@ -119,7 +119,14 @@
 
     /*
     window.open("data:text/html;charset=utf-8,"+html, "", "_blank")
-    javascript:if(!window.lkgViewer){window.lkgViewer=window.open('','lkg', '_blank,location=yes');window.lkgViewer.document.write('<html><body><h1>Drag this window to your Looking Glass</h1><h2><a href="file:///C:/Users/Brian/IdeaProjects/Facebook3DPhotoViewer/src/main/web/index.html">Ready</a></h2></body></html>')};window.lkgViewer.postMessage(function(){
+    javascript:
+        if(!window.lkgViewer){
+            window.lkgViewer=window.open('','lkg','_blank');
+            try {
+                window.lkgViewer.document.write('<html><body><h1>Drag this window to your Looking Glass</h1><h2><a href="https://jaxzin.github.io/Facebook3DPhotoViewer/src/main/web/index.html">Ready</a></h2></body></html>')
+            } catch(ignored){}
+        };
+        window.lkgViewer.postMessage(function(){
     var alltext = document.body.innerHTML;
     var glbURIs = [];
     var searchIndex = 0;
@@ -235,16 +242,14 @@
     var photos = [];
     var selectedPhoto = 0;
 
+    function updatePhotos(newPhotos) {
+        photos = newPhotos;
+        selectedPhoto = 0;
+        loadGLB(event.data[0]);
+    }
+
     window.addEventListener("message", function(event) {
-        if(Array.isArray(event.data)) {
-            photos = event.data;
-            selectedPhoto = 0;
-            loadGLB(event.data[0]);
-        } else {
-            photos = [event.data];
-            selectedPhoto = 0;
-            loadGLB(event.data)
-        }
+        updatePhotos(event.data);
     });
 
     //Render the scene
