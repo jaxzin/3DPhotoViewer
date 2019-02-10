@@ -233,8 +233,11 @@ function RunApp(){
     if (pad.connected) {
         pad.input();
 
-        if (pad[1]) {
-            input(pad[1].values, pad[1].diffs);
+        for(var i = 0; i < pad.length; i++) {
+            let gamepad = pad[i];
+            if(gamepad != null && gamepad.device === "HoloPlay") {
+                input(gamepad.values, gamepad.diffs);
+            }
         }
     }
 
