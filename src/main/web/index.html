@@ -58,16 +58,12 @@
     var loader = new THREE.GLTFLoader();
 
 
-    var fbPhotoScene;
-
     var fbPhotoLoaded = function ( gltf ){
         gltf.scene.translateZ(8.5);
 
         gltf.scene.scale.set(7,7,7);
 
         scene.add( gltf.scene );
-
-        fbPhotoScene = gltf.scene;
     };
 
     var fbPhotoLoading = function ( xhr ) {
@@ -161,12 +157,14 @@
     //     fbPhotoError
     // );
 
+    function clearViewer() {
+        scene.removeAll();
+        scene.add(leftFrame);
+        scene.add(rightFrame);
+    }
 
     function loadGLB(url) {
-        if(fbPhotoScene) {
-            scene.remove(fbPhotoScene);
-            fbPhotoScene = null;
-        }
+        clearViewer();
 
         loader.load(
             // resource URL
@@ -243,9 +241,11 @@
     var selectedPhoto = 0;
 
     function updatePhotos(newPhotos) {
+        let oldPhotoCount = photos.length;
         photos = newPhotos;
-        // Only load a scene if there isn't one selected already
-        if(!fbPhotoScene) {
+
+        // Only load a scene if there is a new photo available
+        if(photos.length !== oldPhotoCount) {
             selectedPhoto = photos.length-1;
             loadGLB(photos[selectedPhoto]);
         }
