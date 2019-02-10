@@ -1,50 +1,90 @@
 let openViewer = document.getElementById('openViewer');
 
 openViewer.onclick = function(element) {
-    chrome.tabs.query({title: 'Looking Glass Tutorial'}, function(tabs) {
+    chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
         if(tabs.length === 0) {
-            chrome.windows.create({
-                url: chrome.extension.getURL("lkg-viewer/index.html"),
-                // state: "fullscreen"
-            })
+            // Find out what displays are available
+            chrome.system.display.getInfo(function(info) {
+                var holoplayDisplay;
+                info.forEach(function(display) {
+                    if(display.bounds.height === 1600 && display.bounds.width === 2560) {
+                        holoplayDisplay = display;
+                    }
+                });
+
+                if(holoplayDisplay) {
+                    chrome.windows.create({
+                        url: chrome.extension.getURL("lkg-viewer/index.html"),
+                        left: holoplayDisplay.bounds.left,
+                        top: holoplayDisplay.bounds.top
+                    }, function(window) {
+                        // Since windows.create doesn't allow for positioning AND making a window full screen on creation...
+                        // After the window has been created, make it full-screen
+                        chrome.windows.update(window.id, { state: "fullscreen" });
+
+                        sendLatestPhotosToDisplay();
+                    })
+                } else {
+                    console.error("No Looking Glass Display found!!!", info)
+                }
+            });
+
+
         } else {
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {code: 'document.location = "' + chrome.extension.getURL("lkg-viewer/loader.html") + '"'}
-            );
-            chrome.windows.update(tabs[0].windowId, {state: "fullscreen"})
+            sendLatestPhotosToDisplay();
         }
     });
 };
 
-let viewPhoto = document.getElementById('viewPhoto');
-
-viewPhoto.onclick = function(element) {
+function sendLatestPhotosToDisplay() {
     chrome.storage.sync.get('photoURIs', function(data) {
         var photoURIs = data.photoURIs;
         if(!photoURIs) {
             photoURIs = []
         }
 
-        chrome.tabs.query({title: 'Looking Glass Tutorial'}, function(tabs) {
+        chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
             var windows = chrome.extension.getViews({tabId: tabs[0].id});
             windows[0].updatePhotos(photoURIs);
-            // chrome.tabs.executeScript(
-            //     tabs[0].id,
-            //     {code: 'location.href = \'javascript:updatePhotos(' + JSON.stringify(photoURIs) + ')\''}
-            //     // {code: 'loadGLB("https://scontent-iad3-1.xx.fbcdn.net/v/t39.14030-6/50018107_2143782685644499_4772261604240654336_n.glb?_nc_cat=108&_nc_ht=scontent-iad3-1.xx&oh=f4982515d10bc5d98cf69eea5a684c32&oe=5CE27537")'}
-            // );
         });
-
     });
+}
 
+let closeViewer = document.getElementById('closeViewer');
+
+closeViewer.onclick = function(element) {
+    chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
+        tabs.forEach(function(tab){
+            chrome.windows.remove(tab.windowId)
+        });
+    });
 };
+
+// let viewPhoto = document.getElementById('viewPhoto');
+//
+// viewPhoto.onclick = function(element) {
+//     chrome.storage.sync.get('photoURIs', function(data) {
+//         var photoURIs = data.photoURIs;
+//         if(!photoURIs) {
+//             photoURIs = []
+//         }
+//
+//         chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
+//             var windows = chrome.extension.getViews({tabId: tabs[0].id});
+//             windows[0].updatePhotos(photoURIs);
+//         });
+//     });
+// };
 
 let clearPhotos = document.getElementById('clearPhotos');
 
 clearPhotos.onclick = function(element) {
-    chrome.storage.sync.set({photoURIs: new Set()}, function(data) {
+    chrome.storage.sync.set({photoURIs: []}, function(data) {
             console.log("Clear photos database");
+            chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
+                var windows = chrome.extension.getViews({tabId: tabs[0].id});
+                windows[0].updatePhotos([]);
+            });
         }
     );
 
