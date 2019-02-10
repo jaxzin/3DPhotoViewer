@@ -158,7 +158,9 @@
     // );
 
     function clearViewer() {
-        scene.removeAll();
+        while(scene.children.length > 0){
+            scene.remove(scene.children[0]);
+        }
         scene.add(leftFrame);
         scene.add(rightFrame);
     }
