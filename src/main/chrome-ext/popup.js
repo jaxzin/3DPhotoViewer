@@ -2,11 +2,18 @@ let openViewer = document.getElementById('openViewer');
 
 openViewer.onclick = function(element) {
     chrome.tabs.query({title: 'Looking Glass Tutorial'}, function(tabs) {
-        chrome.tabs.executeScript(
-            tabs[0].id,
-            {code: 'document.location = "https://jaxzin.github.io/Facebook3DPhotoViewer/src/main/web/index.html"'}
-        );
-        chrome.windows.update(tabs[0].windowId, { state: "fullscreen" })
+        if(tabs.length === 0) {
+            chrome.windows.create({
+                url: chrome.extension.getURL("lkg-viewer/index.html"),
+                // state: "fullscreen"
+            })
+        } else {
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {code: 'document.location = "' + chrome.extension.getURL("lkg-viewer/loader.html") + '"'}
+            );
+            chrome.windows.update(tabs[0].windowId, {state: "fullscreen"})
+        }
     });
 };
 
@@ -20,11 +27,13 @@ viewPhoto.onclick = function(element) {
         }
 
         chrome.tabs.query({title: 'Looking Glass Tutorial'}, function(tabs) {
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {code: 'location.href = \'javascript:updatePhotos(' + JSON.stringify(photoURIs) + ')\''}
-                // {code: 'loadGLB("https://scontent-iad3-1.xx.fbcdn.net/v/t39.14030-6/50018107_2143782685644499_4772261604240654336_n.glb?_nc_cat=108&_nc_ht=scontent-iad3-1.xx&oh=f4982515d10bc5d98cf69eea5a684c32&oe=5CE27537")'}
-            );
+            var windows = chrome.extension.getViews({tabId: tabs[0].id});
+            windows[0].updatePhotos(photoURIs);
+            // chrome.tabs.executeScript(
+            //     tabs[0].id,
+            //     {code: 'location.href = \'javascript:updatePhotos(' + JSON.stringify(photoURIs) + ')\''}
+            //     // {code: 'loadGLB("https://scontent-iad3-1.xx.fbcdn.net/v/t39.14030-6/50018107_2143782685644499_4772261604240654336_n.glb?_nc_cat=108&_nc_ht=scontent-iad3-1.xx&oh=f4982515d10bc5d98cf69eea5a684c32&oe=5CE27537")'}
+            // );
         });
 
     });
