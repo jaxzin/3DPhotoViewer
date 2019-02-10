@@ -20,7 +20,7 @@ chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         console.log(details.url);
         if(details.url.indexOf(".glb") != -1) {
-            chrome.storage.sync.get('photoURIs', function(data) {
+            chrome.storage.local.get('photoURIs', function(data) {
                     var photoURIs = data.photoURIs;
                     if(!Array.isArray(photoURIs)) {
                         photoURIs = [];
@@ -29,7 +29,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                     if(!photoURIs.includes(details.url)) {
                         photoURIs.push(details.url);
                     }
-                    chrome.storage.sync.set({photoURIs: photoURIs}, function () {
+                    chrome.storage.local.set({photoURIs: photoURIs}, function () {
                         console.log("Updated photoURIs: ", photoURIs);
                     });
 

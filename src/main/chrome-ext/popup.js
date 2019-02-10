@@ -48,7 +48,7 @@ openViewer.onclick = function(element) {
 };
 
 function sendLatestPhotosToDisplay() {
-    chrome.storage.sync.get('photoURIs', function(data) {
+    chrome.storage.local.get('photoURIs', function(data) {
         var photoURIs = data.photoURIs;
         if(!photoURIs) {
             photoURIs = []
@@ -90,7 +90,7 @@ closeViewer.onclick = function(element) {
 let clearPhotos = document.getElementById('clearPhotos');
 
 clearPhotos.onclick = function(element) {
-    chrome.storage.sync.set({photoURIs: []}, function(data) {
+    chrome.storage.local.set({photoURIs: []}, function(data) {
             console.log("Clear photos database");
             chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
                 var windows = chrome.extension.getViews({tabId: tabs[0].id});
