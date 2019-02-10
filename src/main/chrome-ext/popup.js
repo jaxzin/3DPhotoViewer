@@ -20,9 +20,20 @@ openViewer.onclick = function(element) {
                     }, function(window) {
                         // Since windows.create doesn't allow for positioning AND making a window full screen on creation...
                         // After the window has been created, make it full-screen
-                        chrome.windows.update(window.id, { state: "fullscreen" });
+                        // Wait 1 second though, because the calibration data for the display isn't available immediately
+                        setTimeout(function() {
+                            chrome.windows.update(window.id, { state: "fullscreen" }, function() {
 
-                        sendLatestPhotosToDisplay();
+                                // Remove the "Make Full Screen button"
+                                chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
+                                    var windows = chrome.extension.getViews({tabId: tabs[0].id});
+                                    windows[0].document.querySelector("#fullscreen").style.display = 'none';
+                                });
+
+                                sendLatestPhotosToDisplay();
+
+                            });
+                        }, 500)
                     })
                 } else {
                     console.error("No Looking Glass Display found!!!", info)
