@@ -177,15 +177,17 @@ function init(){
     //     scene.add(cubes[i]);
     // }
 
-    frameMaterial = new THREE.MeshLambertMaterial();
+    frameMaterial = new THREE.MeshLambertMaterial({depthTest: false});
     frameMaterial.emissive = new THREE.Color( 'white' );
     frameGeo = new THREE.PlaneGeometry(2,10,1);
 
     leftFrame = new THREE.Mesh(frameGeo, frameMaterial);
     leftFrame.position.set(-3,0,1.5);
+    leftFrame.renderOrder = 1;
 
     rightFrame = new THREE.Mesh(frameGeo, frameMaterial);
     rightFrame.position.set(3,0,1.5);
+    rightFrame.renderOrder = 2;
 
     scene.add(leftFrame);
     scene.add(rightFrame);
