@@ -182,11 +182,11 @@ function init(){
     frameGeo = new THREE.PlaneGeometry(2,10,1);
 
     leftFrame = new THREE.Mesh(frameGeo, frameMaterial);
-    leftFrame.position.set(-3,0,1.5);
+    leftFrame.position.set(-3,0,1);
     leftFrame.renderOrder = 1;
 
     rightFrame = new THREE.Mesh(frameGeo, frameMaterial);
-    rightFrame.position.set(3,0,1.5);
+    rightFrame.position.set(3,0,1);
     rightFrame.renderOrder = 2;
 
     scene.add(leftFrame);
