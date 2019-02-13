@@ -70,33 +70,3 @@ closeViewer.onclick = function(element) {
         });
     });
 };
-
-// let viewPhoto = document.getElementById('viewPhoto');
-//
-// viewPhoto.onclick = function(element) {
-//     chrome.storage.sync.get('photoURIs', function(data) {
-//         var photoURIs = data.photoURIs;
-//         if(!photoURIs) {
-//             photoURIs = []
-//         }
-//
-//         chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
-//             var windows = chrome.extension.getViews({tabId: tabs[0].id});
-//             windows[0].updatePhotos(photoURIs);
-//         });
-//     });
-// };
-
-let clearPhotos = document.getElementById('clearPhotos');
-
-clearPhotos.onclick = function(element) {
-    chrome.storage.local.set({photoURIs: []}, function(data) {
-            console.log("Clear photos database");
-            chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
-                var windows = chrome.extension.getViews({tabId: tabs[0].id});
-                windows[0].updatePhotos([]);
-            });
-        }
-    );
-
-};
