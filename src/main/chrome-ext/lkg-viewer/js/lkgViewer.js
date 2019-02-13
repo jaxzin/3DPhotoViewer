@@ -67,7 +67,6 @@ function clearViewer() {
     }
     scene.add(leftFrame);
     scene.add(rightFrame);
-    scene.add(caption);
 }
 
 function loadGLB(url) {
