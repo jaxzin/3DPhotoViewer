@@ -128,6 +128,7 @@ function clearViewer() {
     }
     scene.add(leftFrame);
     scene.add(rightFrame);
+    scene.add(caption);
 }
 
 function loadGLB(url) {
@@ -188,6 +189,30 @@ function init(){
     rightFrame = new THREE.Mesh(frameGeo, frameMaterial);
     rightFrame.position.set(3,0,1);
     rightFrame.renderOrder = 2;
+
+    var fontLoader = new THREE.FontLoader();
+
+    fontLoader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+        var captionGeo = new THREE.TextGeometry( 'Facebook', {
+            font: font,
+            size: 1,
+            height: 0.1,
+            curveSegments: 12,
+            bevelEnabled: false
+        } );
+
+        captionMaterial = new THREE.MeshLambertMaterial({depthTest: false});
+        captionMaterial.emissive = new THREE.Color( 'gray' );
+        caption = new THREE.Mesh(captionGeo, captionMaterial);
+        caption.renderOrder = 3;
+
+        caption.scale.set(0.5,0.5,0.5);
+        caption.position.set(-3.5,-2,1);
+
+        scene.add(caption);
+    } );
+
 
     scene.add(leftFrame);
     scene.add(rightFrame);
