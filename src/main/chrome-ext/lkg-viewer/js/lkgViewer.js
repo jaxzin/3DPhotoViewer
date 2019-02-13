@@ -261,10 +261,12 @@ function input(values,  // @arg Uint8Array - current values
                 selectedPhoto = photos.length-1;
             }
             loadGLB(photos[selectedPhoto]);
-        } else if (diffs[GAMEPAD_KEY_B] && values[GAMEPAD_KEY_B]) {
+        } else if (values[GAMEPAD_KEY_B]) {
             console.log("Square");
-        } else if (diffs[GAMEPAD_KEY_X] && values[GAMEPAD_KEY_X]) {
+            scene.children[2].translateZ(-0.1);
+        } else if (values[GAMEPAD_KEY_X]) {
             console.log("Circle");
+            scene.children[2].translateZ(0.1);
         } else if (diffs[GAMEPAD_KEY_Y] && values[GAMEPAD_KEY_Y]) {
             console.log("Right");
             selectedPhoto++;
