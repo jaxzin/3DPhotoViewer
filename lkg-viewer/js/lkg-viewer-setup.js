@@ -22,8 +22,10 @@ holoplayGamepad.on('squarePressed', function () {
 
 //Game loop
 function RunApp(){
-    requestAnimationFrame(RunApp);
     holoplayGamepad.tick();
     viewer.draw();
+
+    // Setup a callback for the next animation tick.
+    requestAnimationFrame(RunApp);
 }
 RunApp();
