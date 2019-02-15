@@ -134,10 +134,38 @@ function updatePhotos(newPhotos) {
 
     // Only load a scene if there is a new photo available
     if(photos.length !== oldPhotoCount) {
-        selectedPhoto = photos.length-1;
-        loadGLB(photos[selectedPhoto]);
+        lastPhoto();
     }
 }
+
+function reloadPhoto() {
+    loadGLB(photos[selectedPhoto]);
+}
+
+function loadPhoto(index) {
+    selectedPhoto = index;
+    reloadPhoto();
+}
+
+function firstPhoto() {
+    loadPhoto(0);
+}
+
+function lastPhoto() {
+    loadPhoto(photos.length - 1);
+}
+
+function nextPhoto() {
+    selectedPhoto = (selectedPhoto + 1) % photos.length;
+    reloadPhoto();
+}
+
+function previousPhoto() {
+    // one-liner that wraps the index around to the end of the array if we hit -1
+    selectedPhoto = --selectedPhoto < 0 ? photos.length - 1 : selectedPhoto;
+    reloadPhoto();
+}
+
 
 window.addEventListener("message", function(event) {
     updatePhotos(event.data);
@@ -154,11 +182,9 @@ function RunApp(){
     if (pad.connected) {
         pad.input();
 
-        for(var i = 0; i < pad.length; i++) {
-            let gamepad = pad[i];
-            if(gamepad != null && gamepad.device === "HoloPlay") {
-                input(gamepad.values, gamepad.diffs);
-            }
+        let gamepad = pad.getDevice("HoloPlay");
+        if(gamepad != null) {
+            input(gamepad.values, gamepad.diffs);
         }
     }
 

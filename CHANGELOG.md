@@ -1,5 +1,7 @@
 Changelog
 -----------
+### 1.0.3 [Unreleased]
+* Fixed bug in GamePad library that caused LKG inputs to not be found sometimes.
 
 ### 1.0.2 [2019-02-12]
 * Tweaked camera FOV to feel more like the Facebook viewer's camera.
