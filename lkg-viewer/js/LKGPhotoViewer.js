@@ -126,19 +126,36 @@ class LKGPhotoViewer {
         scene.add(rightFrame);
     }
 
+
     loadGLB(url) {
         this.clear();
 
-        this._loader.load(
-            // resource URL
-            url,
-            // called when the resource is loaded
-            this._fbPhotoLoaded,
-            // called while loading is progressing
-            this._fbPhotoLoading,
-            // called when loading has errors
-            this._fbPhotoError
-        );
+        let request = new Request(url);
+        let gltfLoader = this._loader;
+        let onLoaded = this._fbPhotoLoaded;
+        let onError = this._fbPhotoError;
+        let onBufferFulfilled = function(buffer) {
+            gltfLoader.parse(buffer, null, onLoaded, onError);
+        };
+
+        caches.open('lkgPhotoGLTFs').then(cache=>{
+            cache.match(request).then(response=> {
+                if(response) {
+                    console.log("Reading gltf from cache: ", request.url);
+                    response.arrayBuffer().then(onBufferFulfilled);
+
+                } else {
+                    console.log("Downloading gltf: ", request.url);
+                    cache.add(request).then(response => {
+                        if(response) {
+                            response.arrayBuffer().then(onBufferFulfilled);
+                        } else {
+                            console.error("Unable to download gltf: ", url);
+                        }
+                    })
+                }
+            })
+        });
     }
 
 
