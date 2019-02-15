@@ -36,10 +36,6 @@ chrome.webRequest.onBeforeRequest.addListener(
                     chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
                         var windows = chrome.extension.getViews({tabId: tabs[0].id});
                         windows[0].updatePhotos(photoURIs);
-                        // chrome.tabs.executeScript(
-                        //     tabs[0].id,
-                        //     {code: 'location.href = \'javascript:updatePhotos(' + JSON.stringify(photoURIs) + ')\''}
-                        // );
                     });
                 })
         }
