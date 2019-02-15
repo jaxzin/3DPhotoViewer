@@ -1,10 +1,5 @@
 
-var viewer;
-
-//Initialize our variables
-function init() {
-    viewer = new LKGPhotoViewer(document);
-}
+var viewer = new LKGPhotoViewer(document);
 
 var holoplayGamepad = new HoloPlayGamePad();
 
@@ -27,12 +22,8 @@ holoplayGamepad.on('squarePressed', function () {
 
 //Game loop
 function RunApp(){
-
-    holoplayGamepad.tick();
-
     requestAnimationFrame(RunApp);
+    holoplayGamepad.tick();
     viewer.draw();
 }
-
-init();
 RunApp();
