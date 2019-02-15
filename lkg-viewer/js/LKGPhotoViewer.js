@@ -12,6 +12,8 @@ class LKGPhotoViewer {
         this.camera.position.set(0,0,10);
 
         this.renderer = new THREE.WebGLRenderer();
+        this.renderer.gammaOutput = true;
+        this.renderer.gammaFactor = 2.2;
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
