@@ -90,4 +90,23 @@ closeViewer.onclick = function(element) {
 let nextPhoto = document.getElementById('nextPhoto');
 nextPhoto.onclick = function(element) {
     findViewerThen(function(viewer){ viewer.nextPhoto()});
+    updateNav();
 };
+
+let previousPhoto = document.getElementById('previousPhoto');
+previousPhoto.onclick = function(element) {
+    findViewerThen(function(viewer){ viewer.previousPhoto()});
+    updateNav();
+};
+
+let selectedPhoto = document.getElementById('selectedPhoto');
+let totalPhotos = document.getElementById('totalPhotos');
+
+function updateNav() {
+    findViewerThen(function(viewer) {
+        selectedPhoto.innerText = viewer.selectedPhoto+1;
+        totalPhotos.innerText = viewer.photos.length;
+    })
+}
+
+updateNav();

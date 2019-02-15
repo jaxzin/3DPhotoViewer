@@ -3,17 +3,47 @@
 <head>
     <style>
         button {
-            width: 100px;
+            width: 110px;
             margin: 5px 5px;
             padding: 5px 5px;
             outline: none;
         }
+
+        .nav {
+            text-align: center;
+            vertical-align: middle;
+            line-height: 35px;
+        }
+        .nav button {
+            width: 25px;
+        }
+
+        #previousPhoto {
+            float: left;
+        }
+
+        #nextPhoto {
+            float: right;
+        }
+
+        .indexer {
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
 <button id="openViewer">Open Viewer</button>
 <button id="closeViewer">Close Viewer</button>
-<button id="nextPhoto">Next Photo</button>
+<div class="nav">
+    <button id="previousPhoto">&lt;</button>
+    <div class="indexer">
+        <label id="selectedPhoto">1</label>/<label id="totalPhotos">100</label>
+    </div>
+    <button id="nextPhoto">&gt;</button>
+</div>
 
 <script src="popup.js"></script>
 </body>
