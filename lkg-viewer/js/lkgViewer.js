@@ -1,10 +1,4 @@
-GamePad.VERBOSE = true;
-// GamePadDevice.VERBOSE = true;
 
-
-var pad = new GamePad(function connect(player) {
-    console.log("connected. player: " + player);
-});
 
 //Basic elements for a Three.js/HoloPlay scene
 var scene, camera, renderer, holoplay;
@@ -29,37 +23,6 @@ var fbPhotoLoading = function ( xhr ) {
 var fbPhotoError = function ( error ) {
     console.log( 'An error happened' );
 };
-
-function findGlbUri() {
-    var alltext = document.body.innerHTML;
-    var glbURLIndex = alltext.indexOf('glbURI');
-    var startIndex = alltext.indexOf('"', glbURLIndex + 'glbURI"'.length)+1;
-    var endIndex = alltext.indexOf('"', startIndex);
-    return alltext.substring(startIndex, endIndex).replace(new RegExp("\\\\", 'g'), "");
-}
-
-function findGlbUriInElement(element) {
-    var alltext = element.innerHTML;
-    var glbURLIndex = alltext.indexOf('glbURI');
-    var startIndex = alltext.indexOf('"', glbURLIndex + 'glbURI"'.length)+1;
-    var endIndex = alltext.indexOf('"', startIndex);
-    return alltext.substring(startIndex, endIndex).replace(new RegExp("\\\\", 'g'), "");
-}
-
-function findAllGlbUris() {
-    var alltext = document.body.innerHTML;
-    var glbURIs = [];
-    var searchIndex = 0;
-    while( searchIndex >= 0 ) {
-        var glbURLIndex = alltext.indexOf('glbURI', searchIndex);
-        var startIndex = alltext.indexOf('"', glbURLIndex + 'glbURI"'.length) + 1;
-        var endIndex = alltext.indexOf('"', startIndex);
-        glbURIs.push(alltext.substring(startIndex, endIndex).replace(new RegExp("\\\\", 'g'), ""));
-
-        searchIndex = alltext.indexOf('glbURI', endIndex+1);
-    }
-    return glbURIs;
-}
 
 function clearViewer() {
     while(scene.children.length > 0){
@@ -166,28 +129,35 @@ function previousPhoto() {
     reloadPhoto();
 }
 
-
-window.addEventListener("message", function(event) {
-    updatePhotos(event.data);
-});
-
 //Render the scene
 function draw(){
     holoplay.render();
 }
 
+
+var holoplayGamepad = new HoloPlayGamePad();
+
+holoplayGamepad.on('leftDown', function () {
+    previousPhoto();
+});
+
+holoplayGamepad.on('rightDown', function () {
+    nextPhoto();
+});
+
+holoplayGamepad.on('circlePressed', function () {
+    scene.children[2].translateZ(0.1);
+});
+
+holoplayGamepad.on('squarePressed', function () {
+    scene.children[2].translateZ(-0.1);
+});
+
+
 //Game loop
 function RunApp(){
 
-    if (pad.connected) {
-        pad.input();
-
-        let gamepad = pad.getDevice("HoloPlay");
-        if(gamepad != null) {
-            input(gamepad.values, gamepad.diffs);
-        }
-    }
-
+    holoplayGamepad.tick();
 
     requestAnimationFrame(RunApp);
     draw();
@@ -195,37 +165,3 @@ function RunApp(){
 
 init();
 RunApp();
-
-
-function input(values,  // @arg Uint8Array - current values
-               diffs) { // @arg Uint8Array - diff values
-
-    // logic for how these inputs translate to an event
-    //   if values[MY_BUTTON] --> onButtonPressed
-    //   if values[MY_BUTTON] && diffs[MY_BUTTON] --> onButtonDown
-    //   if !values[MY_BUTTON] && diffs[MY_BUTTON] --> onButtonUp
-
-    if(photos.length > 0) {
-        if (diffs[GAMEPAD_KEY_A] && values[GAMEPAD_KEY_A]) {
-            // onButtonDown "Left"
-            selectedPhoto--;
-            if (selectedPhoto < 0) {
-                selectedPhoto = photos.length-1;
-            }
-            loadGLB(photos[selectedPhoto]);
-        } else if (values[GAMEPAD_KEY_B]) {
-            // onButtonPressed "Square"
-            scene.children[2].translateZ(-0.1);
-        } else if (values[GAMEPAD_KEY_X]) {
-            // onButtonPressed "Circle"
-            scene.children[2].translateZ(0.1);
-        } else if (diffs[GAMEPAD_KEY_Y] && values[GAMEPAD_KEY_Y]) {
-            // onButtonDown "Right"
-            selectedPhoto++;
-            if (selectedPhoto >= photos.length) {
-                selectedPhoto = 0;
-            }
-            loadGLB(photos[selectedPhoto]);
-        }
-    }
-}
