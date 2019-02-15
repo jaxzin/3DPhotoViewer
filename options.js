@@ -9,5 +9,5 @@ clearPhotos.onclick = function(element) {
             });
         }
     );
-
+    caches.delete("lkgPhotoGLTFs");
 };
