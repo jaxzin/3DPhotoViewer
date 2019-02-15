@@ -88,6 +88,9 @@ window.addEventListener('resize', function(){
     camera.updateProjectionMatrix();
 });
 
+
+// ======= Photo Handler ========
+
 var photos = [];
 var selectedPhoto = 0;
 
@@ -129,6 +132,19 @@ function previousPhoto() {
     reloadPhoto();
 }
 
+// ======= Dolly Handler ========
+function getLoadedPhotoFromScene() {
+    return scene.children[2];
+}
+
+function dollyIn() {
+    getLoadedPhotoFromScene().translateZ(0.1);
+}
+
+function dollyOut() {
+    getLoadedPhotoFromScene().translateZ(-0.1);
+}
+
 //Render the scene
 function draw(){
     holoplay.render();
@@ -146,11 +162,11 @@ holoplayGamepad.on('rightDown', function () {
 });
 
 holoplayGamepad.on('circlePressed', function () {
-    scene.children[2].translateZ(0.1);
+    dollyIn();
 });
 
 holoplayGamepad.on('squarePressed', function () {
-    scene.children[2].translateZ(-0.1);
+    dollyOut();
 });
 
 
