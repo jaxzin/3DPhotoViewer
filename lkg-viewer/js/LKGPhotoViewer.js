@@ -150,7 +150,13 @@ class LKGPhotoViewer {
                         if(response) {
                             response.arrayBuffer().then(onBufferFulfilled);
                         } else {
-                            console.error("Unable to download gltf: ", url);
+                            cache.match(request).then(response=> {
+                                if(response) {
+                                    response.arrayBuffer().then(onBufferFulfilled);
+                                } else {
+                                    console.error("Unable to download gltf: ", url);
+                                }
+                            });
                         }
                     })
                 }
