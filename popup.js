@@ -123,13 +123,26 @@ previousPhoto.onclick = function(element) {
 
 let selectedPhoto = document.getElementById('selectedPhoto');
 let totalPhotos = document.getElementById('totalPhotos');
+let focalDistanceSlider = document.getElementById('focalDistance');
 
 function updateNav() {
     findViewerThen(function(viewer) {
         console.log("Setting nav labels", viewer.selectedPhoto);
         selectedPhoto.innerText = viewer.selectedPhoto+1;
         totalPhotos.innerText = viewer.photos.length;
+        focalDistanceSlider.value = viewer.dollyLocation;
     })
 }
+
+focalDistanceSlider.oninput = function(event) {
+    let focalDistance = parseFloat(event.target.value);
+    console.log("Setting focal distance to:", focalDistance);
+    findViewerThen(function(viewer) {
+        viewer.setDollyLocation(focalDistance);
+    });
+
+    return true;
+};
+
 
 updatePopupState();

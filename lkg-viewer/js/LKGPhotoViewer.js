@@ -1,8 +1,10 @@
 class LKGPhotoViewer {
+
     constructor(document) {
 
         this.photos = [];
         this.selectedPhoto = -1;
+        this.dollyLocation = 0.0;
 
         // Instantiate a loader
         this._loader = new THREE.GLTFLoader();
@@ -56,9 +58,10 @@ class LKGPhotoViewer {
         var scene = this.scene;
         var leftFrame = this.leftFrame;
         var rightFrame = this.rightFrame;
+        var viewer = this;
         this._fbPhotoLoaded = function ( gltf ){
 
-            gltf.scene.translateZ(8.5);
+            gltf.scene.translateZ(LKGPhotoViewer._DEFAULT_DOLLY + viewer.dollyLocation);
             gltf.scene.scale.set(7,7,7);
 
             clear(scene, leftFrame, rightFrame);
@@ -172,11 +175,18 @@ class LKGPhotoViewer {
     }
 
     dollyIn() {
-        this.getLoadedPhotoFromScene().translateZ(0.1);
+        this.dollyLocation += LKGPhotoViewer._DOLLY_STEP;
+        this.getLoadedPhotoFromScene().position.z = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
     }
 
     dollyOut() {
-        this.getLoadedPhotoFromScene().translateZ(-0.1);
+        this.dollyLocation -= LKGPhotoViewer._DOLLY_STEP;
+        this.getLoadedPhotoFromScene().position.z = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
+    }
+
+    setDollyLocation(z) {
+        this.dollyLocation = z;
+        this.getLoadedPhotoFromScene().position.z = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
     }
 
 
@@ -186,3 +196,6 @@ class LKGPhotoViewer {
     }
 
 }
+
+LKGPhotoViewer._DEFAULT_DOLLY = 8.5;
+LKGPhotoViewer._DOLLY_STEP = 0.1;

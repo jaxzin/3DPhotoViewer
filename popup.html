@@ -36,6 +36,18 @@
             display:none;
         }
 
+        .slidecontainer {
+            width: 100%; /* Width of the outside container */
+        }
+
+
+
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1; /* Fully shown on mouse-over */
+        }
+
+
     </style>
 </head>
 <body>
@@ -50,6 +62,9 @@
             <label id="selectedPhoto">1</label>/<label id="totalPhotos">100</label>
         </div>
         <button id="nextPhoto">&gt;</button>
+    </div>
+    <div class="slidecontainer">
+        <input type="range" min="-10" max="10" value="0" step="0.01" class="slider" id="focalDistance">
     </div>
 </div>
 
