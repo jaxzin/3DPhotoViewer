@@ -2,6 +2,7 @@ class LKGPhotoViewer {
     constructor(document) {
 
         this.photos = [];
+        this.selectedPhoto = -1;
 
         // Instantiate a loader
         this._loader = new THREE.GLTFLoader();

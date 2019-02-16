@@ -19,12 +19,26 @@ function findViewerThen(onViewerFound) {
     });
 }
 
+function updatePopupState() {
+    findTabThen(function(tab) {
+        console.log("Tab was open, updating popup");
+        document.querySelector('.opened').style.display = 'block';
+        document.querySelector('.closed').style.display = 'none';
+        updateNav();
+    }, function() {
+        console.log("Tab was closed, updating popup");
+        document.querySelector('.opened').style.display = 'none';
+        document.querySelector('.closed').style.display = 'block';
+    })
+}
+
 let openViewer = document.getElementById('openViewer');
 
 openViewer.onclick = function(element) {
     findTabThen(
         function(tab) {
             sendLatestPhotosToDisplay();
+            updatePopupState();
         },
         // If there is no window...
         createViewerWindow);
@@ -48,20 +62,26 @@ function createViewerWindow() {
             }, function (window) {
                 // Since windows.create doesn't allow for positioning AND making a window full screen on creation...
                 // After the window has been created, make it full-screen
-                // Wait 1 second though, because the calibration data for the display isn't available immediately
+                // Wait half a second though, because the calibration data for the display isn't available immediately
                 setTimeout(function () {
                     chrome.windows.update(window.id, {state: "fullscreen"}, function () {
 
                         // Remove the "Make Full Screen button"
-                        chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function (tabs) {
-                            var windows = chrome.extension.getViews({tabId: tabs[0].id});
+                        findTabThen(function(tab){
+                            var windows = chrome.extension.getViews({tabId: tab.id});
                             windows[0].document.querySelector("#fullscreen").style.display = 'none';
+
+                            sendLatestPhotosToDisplay();
+                            updatePopupState();
+
+                            // The viewer data isn't ready right away so update the popup again in a few milliseconds
+                            setTimeout(function () {
+                                updatePopupState();
+                            }, 10)
                         });
 
-                        sendLatestPhotosToDisplay();
-
                     });
-                }, 500)
+                }, 500);
             })
         } else {
             console.error("No Looking Glass Display found!!!", info)
@@ -83,7 +103,9 @@ function sendLatestPhotosToDisplay() {
 let closeViewer = document.getElementById('closeViewer');
 closeViewer.onclick = function(element) {
     findTabThen(function(tab){
-        chrome.windows.remove(tab.windowId)
+        chrome.windows.remove(tab.windowId, function() {
+            updatePopupState();
+        });
     });
 };
 
@@ -104,9 +126,10 @@ let totalPhotos = document.getElementById('totalPhotos');
 
 function updateNav() {
     findViewerThen(function(viewer) {
+        console.log("Setting nav labels", viewer.selectedPhoto);
         selectedPhoto.innerText = viewer.selectedPhoto+1;
         totalPhotos.innerText = viewer.photos.length;
     })
 }
 
-updateNav();
+updatePopupState();

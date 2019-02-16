@@ -32,17 +32,25 @@
             display: inline-block;
         }
 
+        .opened {
+            display:none;
+        }
+
     </style>
 </head>
 <body>
-<button id="openViewer">Open Viewer</button>
-<button id="closeViewer">Close Viewer</button>
-<div class="nav">
-    <button id="previousPhoto">&lt;</button>
-    <div class="indexer">
-        <label id="selectedPhoto">1</label>/<label id="totalPhotos">100</label>
+<div class="closed">
+    <button id="openViewer">Open Viewer</button>
+</div>
+<div class="opened">
+    <button id="closeViewer">Close Viewer</button>
+    <div class="nav">
+        <button id="previousPhoto">&lt;</button>
+        <div class="indexer">
+            <label id="selectedPhoto">1</label>/<label id="totalPhotos">100</label>
+        </div>
+        <button id="nextPhoto">&gt;</button>
     </div>
-    <button id="nextPhoto">&gt;</button>
 </div>
 
 <script src="popup.js"></script>
