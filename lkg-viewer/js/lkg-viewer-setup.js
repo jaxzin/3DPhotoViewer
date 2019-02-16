@@ -1,30 +1,35 @@
 
 var viewer = new LKGPhotoViewer(document);
 
-var popup = chrome.extension.getViews({type: 'popup'})[0];
 
 var holoplayGamepad = new HoloPlayGamePad();
 
 holoplayGamepad.on('leftDown', function () {
     viewer.previousPhoto();
-    popup.updatePopupState();
+    updatePopup();
 });
 
 holoplayGamepad.on('rightDown', function () {
     viewer.nextPhoto();
-    popup.updatePopupState();
+    updatePopup();
 });
 
 holoplayGamepad.on('circlePressed', function () {
     viewer.dollyIn();
-    popup.updatePopupState();
+    updatePopup();
 });
 
 holoplayGamepad.on('squarePressed', function () {
     viewer.dollyOut();
-    popup.updatePopupState();
+    updatePopup();
 });
 
+function updatePopup() {
+    var popups = chrome.extension.getViews({type: 'popup'});
+    if(popups && popups.length > 0 && !popups[0].closed) {
+        popups[0].updatePopupState();
+    }
+}
 
 //Game loop
 function RunApp(){
