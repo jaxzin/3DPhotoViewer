@@ -25,6 +25,7 @@ holoplayGamepad.on('squarePressed', function () {
 });
 
 function updatePopup() {
+    // Find and update the Chrome extensions popup if it's open
     var popups = chrome.extension.getViews({type: 'popup'});
     if(popups && popups.length > 0 && !popups[0].closed) {
         popups[0].updatePopupState();
