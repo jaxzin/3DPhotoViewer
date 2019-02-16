@@ -1,6 +1,6 @@
 Changelog
 -----------
-### 1.0.3 [Unreleased]
+### 1.0.3 [2019-02-16]
 * Fixed bug in GamePad library that caused LKG inputs to not be found sometimes.
 * Fixed colorspace issue that caused photos to be to dark.
 * Added navigation controls from the popup.
