@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        pkg: grunt.file.readJSON("package.json"),
         curl: {
             'tmp/holoplay.zip': 'https://s3.amazonaws.com/static-files.lookingglassfactory.com/ThreeJSLibrary/HoloPlay.zip'
         },
@@ -22,7 +23,7 @@ module.exports = function(grunt) {
                     unminified: false,
                     include: {
                         js: {
-                            'three/build/**/*.js': 'three/',
+                            'three/build/three.js': 'three/',
                             'three/examples/js/loaders/GLTFLoader.js': 'three/loaders/'
                         }
                     }
@@ -48,6 +49,24 @@ module.exports = function(grunt) {
                     js: 'lkg-viewer/js/deps/'
                 }
             }
+        },
+        zip: {
+            'chrome extension': {
+                src: [
+                    'images/**',
+                    'lkg-viewer/**',
+                    '*.html',
+                    '*.js',
+                    'manifest.json',
+                    'LICENSE.txt',
+                    '*.md'
+                ],
+                dest: "dist/Facebook3DPhotoViewer-<%= pkg.version %>.zip",
+                compression: 'DEFLATE',
+                compressionOptions: {
+                    level: 9
+                }
+            }
         }
     });
 
@@ -58,5 +77,6 @@ module.exports = function(grunt) {
 
     // Combine all actions into a single task
     grunt.registerTask('install', ['curl', 'unzip', 'copy', 'copydeps']);
+    grunt.registerTask('package', ['install','zip']);
 
 };
