@@ -1,5 +1,8 @@
 Changelog
 -----------
+### 1.0.5 [2019-02-18]
+* Reorganized dependencies and moved holoplay-gamepad into it's own package.
+
 ### 1.0.4 [2019-02-16]
 * Removed broader permissions in preparation for a public release.
 
