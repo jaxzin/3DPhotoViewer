@@ -61,7 +61,7 @@ module.exports = function(grunt) {
                     'LICENSE.txt',
                     '*.md'
                 ],
-                dest: "dist/Facebook3DPhotoViewer-<%= pkg.version %>.zip",
+                dest: "dist/3DPhotoViewer-<%= pkg.version %>.zip",
                 compression: 'DEFLATE',
                 compressionOptions: {
                     level: 9
