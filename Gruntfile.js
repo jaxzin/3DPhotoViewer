@@ -3,28 +3,16 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
-        curl: {
-            'tmp/holoplay.zip': 'https://s3.amazonaws.com/static-files.lookingglassfactory.com/ThreeJSLibrary/HoloPlay.zip'
-        },
-        unzip: {
-            'tmp/holoplay': 'tmp/holoplay.zip'
-        },
-        copy: {
-            holoplay: {
-                files: [
-                    {expand: true, flatten: true, src: 'tmp/holoplay/HoloPlay/holoplay.js', dest: 'lkg-viewer/js/deps/holoplay/'}
-                ]
-            }
-        },
         copydeps: {
-            three: {
+            holoplay: {
                 options: {
                     minified: false,
                     unminified: false,
                     include: {
                         js: {
-                            'three/build/three.js': 'three/',
-                            'three/examples/js/loaders/GLTFLoader.js': 'three/loaders/'
+                            'holoplay/dist/*.js': 'holoplay/',
+                            'holoplay/node_modules/three/build/*.js': 'three/build/',
+                            'holoplay/node_modules/three/examples/jsm/loaders/GLTFLoader.js': 'three/examples/jsm/loaders/'
                         }
                     }
                 },
@@ -76,7 +64,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-copy-deps');
 
     // Combine all actions into a single task
-    grunt.registerTask('install', ['curl', 'unzip', 'copy', 'copydeps']);
+    grunt.registerTask('install', ['copydeps']);
     grunt.registerTask('package', ['install','zip']);
 
 };

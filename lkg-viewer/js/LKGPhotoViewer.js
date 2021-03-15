@@ -1,3 +1,6 @@
+import { GLTFLoader } from './deps/three/examples/jsm/loaders/GLTFLoader.js';
+import * as HoloPlay from './deps/holoplay/holoplay.module.js';
+
 class LKGPhotoViewer {
 
     constructor(document) {
@@ -7,20 +10,19 @@ class LKGPhotoViewer {
         this.dollyLocation = 0.0;
 
         // Instantiate a loader
-        this._loader = new THREE.GLTFLoader();
+        this._loader = new GLTFLoader();
 
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera(30, window.innerWidth/window.innerHeight, 0.1, 1000);
-        this.camera.position.set(0,0,10);
+        this.camera = new HoloPlay.Camera();
+        this.camera.position.set(0,0,20);
 
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new HoloPlay.Renderer({
+            disableFullscreenUi: true,
+        });
         this.renderer.gammaOutput = true;
         this.renderer.gammaFactor = 2.2;
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
-
-        this.holoplay = new HoloPlay(this.scene, this.camera, this.renderer);
 
         this.frameMaterial = new THREE.MeshLambertMaterial({depthTest: false});
         this.frameMaterial.emissive = new THREE.Color( 'white' );
@@ -42,15 +44,15 @@ class LKGPhotoViewer {
         var camera = this.camera;
 
         //Resize window on size change
-        window.addEventListener('resize', function(){
-            var width = window.innerWidth;
-            var height = window.innerHeight;
-
-            renderer.setSize(width, height);
-
-            camera.aspect = width/height;
-            camera.updateProjectionMatrix();
-        });
+        // window.addEventListener('resize', function(){
+        //     var width = window.innerWidth;
+        //     var height = window.innerHeight;
+        //
+        //     renderer.setSize(width, height);
+        //
+        //     camera.aspect = width/height;
+        //     camera.updateProjectionMatrix();
+        // });
 
 
         // Set the clear function and scene to a local variable so the event listener can access it.
@@ -61,13 +63,26 @@ class LKGPhotoViewer {
         var viewer = this;
         this._fbPhotoLoaded = function ( gltf ){
 
-            gltf.scene.translateZ(LKGPhotoViewer._DEFAULT_DOLLY + viewer.dollyLocation);
+            gltf.scene.translateZ(8.5);
             gltf.scene.scale.set(7,7,7);
 
             clear(scene, leftFrame, rightFrame);
             scene.add( gltf.scene );
+
+            viewer.selectedPhotoMatrix = new THREE.Matrix4();
+            console.log(viewer.selectedPhotoMatrix);
+            viewer.updateLoadedPhoto();
         };
 
+    }
+
+    updateLoadedPhoto() {
+        var loadedPhoto = this.scene.children[2];
+        // Don't recalculate the matrix automatically, we're going to do some magic
+        loadedPhoto.matrixAutoUpdate = false;
+        // Magic numbers to distort a Facebook 3D Photo properly for the Holoplay.Camera
+        loadedPhoto.matrix.makePerspective(0.5,-0.5,-0.5,0.5,-3,2.5).multiply(this.selectedPhotoMatrix);
+        loadedPhoto.matrix.elements[10] = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
     }
 
     updatePhotos(newPhotos) {
@@ -175,27 +190,28 @@ class LKGPhotoViewer {
     }
 
     dollyIn() {
-        this.dollyLocation += LKGPhotoViewer._DOLLY_STEP;
-        this.getLoadedPhotoFromScene().position.z = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
+        this.setDollyLocation(this.dollyLocation + LKGPhotoViewer._DOLLY_STEP);
     }
 
     dollyOut() {
-        this.dollyLocation -= LKGPhotoViewer._DOLLY_STEP;
-        this.getLoadedPhotoFromScene().position.z = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
+        this.setDollyLocation(this.dollyLocation - LKGPhotoViewer._DOLLY_STEP);
     }
 
     setDollyLocation(z) {
+        console.log(z);
         this.dollyLocation = z;
-        this.getLoadedPhotoFromScene().position.z = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
+        this.updateLoadedPhoto();
     }
 
 
     //Render the scene
-    draw(){
-        this.holoplay.render();
+    draw(time){
+        this.renderer.render(this.scene, this.camera);
     }
 
 }
 
-LKGPhotoViewer._DEFAULT_DOLLY = 8.5;
-LKGPhotoViewer._DOLLY_STEP = 0.1;
+LKGPhotoViewer._DEFAULT_DOLLY = 2.9;
+LKGPhotoViewer._DOLLY_STEP = 0.01;
+
+export default LKGPhotoViewer;

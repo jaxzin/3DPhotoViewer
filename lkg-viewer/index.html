@@ -31,10 +31,7 @@
 <div id="caption2">Caption</div>
 
 <!-- Import three.js and the HoloPlay SDK -->
-<script src="js/deps/three/three.js"></script>
-<script src="js/deps/three/loaders/GLTFLoader.js"></script>
-
-<script src="js/deps/holoplay/holoplay.js"></script>
+<script src="js/deps/three/build/three.js"></script>
 
 <!-- Import the GamePad API from uupaa -->
 <script src="js/deps/uupaa.gamepad.js/WebModule.js"></script>
@@ -47,10 +44,7 @@
 <script src="js/deps/holoplay-gamepad/EventEmitter.js"></script>
 <script src="js/deps/holoplay-gamepad/HoloPlayGamePad.js"></script>
 
-<!-- Import the handler for the Photo Viewer -->
-<script src="js/LKGPhotoViewer.js"></script>
-
 <!-- Hook it all together -->
-<script src="js/lkg-viewer-setup.js"></script>
+<script type="module" src="js/lkg-viewer-setup.js"></script>
 </body>
 </html>

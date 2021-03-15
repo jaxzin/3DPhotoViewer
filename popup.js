@@ -50,6 +50,10 @@ function createViewerWindow() {
         var holoplayDisplay;
         info.forEach(function (display) {
             if (display.bounds.height === 1600 && display.bounds.width === 2560) {
+                // Looking Glass 8.9"
+                holoplayDisplay = display;
+            } else if (display.bounds.height === 2048 && display.bounds.width === 1536) {
+                // Looking Glass Portrait
                 holoplayDisplay = display;
             }
         });
@@ -66,11 +70,8 @@ function createViewerWindow() {
                 setTimeout(function () {
                     chrome.windows.update(window.id, {state: "fullscreen"}, function () {
 
-                        // Remove the "Make Full Screen button"
                         findTabThen(function(tab){
-                            var windows = chrome.extension.getViews({tabId: tab.id});
-                            windows[0].document.querySelector("#fullscreen").style.display = 'none';
-
+                            // Once it's full screen, display a 3D photo
                             sendLatestPhotosToDisplay();
                             updatePopupState();
 
