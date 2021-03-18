@@ -1,28 +1,30 @@
+import LKGPhotoViewer from './LKGPhotoViewer.js';
 
-var viewer = new LKGPhotoViewer(document);
+export let viewer = new LKGPhotoViewer(document);
+window.viewer = viewer;
 
 
-var holoplayGamepad = new HoloPlayGamePad();
-
-holoplayGamepad.on('leftDown', function () {
-    viewer.previousPhoto();
-    updatePopup();
-});
-
-holoplayGamepad.on('rightDown', function () {
-    viewer.nextPhoto();
-    updatePopup();
-});
-
-holoplayGamepad.on('circlePressed', function () {
-    viewer.dollyIn();
-    updatePopup();
-});
-
-holoplayGamepad.on('squarePressed', function () {
-    viewer.dollyOut();
-    updatePopup();
-});
+// var holoplayGamepad = new HoloPlayGamePad();
+//
+// holoplayGamepad.on('leftDown', function () {
+//     viewer.previousPhoto();
+//     updatePopup();
+// });
+//
+// holoplayGamepad.on('rightDown', function () {
+//     viewer.nextPhoto();
+//     updatePopup();
+// });
+//
+// holoplayGamepad.on('circlePressed', function () {
+//     viewer.dollyIn();
+//     updatePopup();
+// });
+//
+// holoplayGamepad.on('squarePressed', function () {
+//     viewer.dollyOut();
+//     updatePopup();
+// });
 
 function updatePopup() {
     // Find and update the Chrome extensions popup if it's open
@@ -33,11 +35,11 @@ function updatePopup() {
 }
 
 //Game loop
-function RunApp(){
-    holoplayGamepad.tick();
-    viewer.draw();
-
+function RunApp(time){
     // Setup a callback for the next animation tick.
     requestAnimationFrame(RunApp);
+
+    //holoplayGamepad.tick();
+    viewer.draw(time);
 }
-RunApp();
+requestAnimationFrame(RunApp);
