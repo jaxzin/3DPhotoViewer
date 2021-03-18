@@ -15,6 +15,6 @@
   "dependencies": {
     "holoplay": "^1.0.3",
     "holoplay-gamepad": "^1.0.1",
-    "three": "^0.101.1"
+    "three": "^0.125.0"
   }
 }
