@@ -1,7 +1,7 @@
 # 3D Photo Viewer for Looking Glass
 A Chrome Extension to display 3D Photos on your Looking Glass display.
 
-Published in the Chrome Web Store: https://chrome.google.com/webstore/detail/3d-photo-viewer/nhlnneklilfigmfbbodbkoihlhcnpmli
+Published in the Chrome Web Store: https://chrome.google.com/webstore/detail/3d-photo-viewer-for-looki/dmanadldhmolbbmmabgeodpbinjnijjf
 
 The Looking Glass: https://lookingglassfactory.com/
 
