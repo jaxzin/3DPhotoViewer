@@ -67,5 +67,5 @@ lkg-viewer/js/deps/**
 .yarn/
 .yarnrc.yml
 .pnp.*
-dist/
 tmp
+dist/
