@@ -209,6 +209,26 @@ class LKGPhotoViewer {
         this.renderer.render(this.scene, this.camera);
     }
 
+    downloadQuilt() {
+        const prevRender2d = this.renderer.render2d;
+        const prevRenderQuilt = this.renderer.renderQuilt;
+
+        this.renderer.render2d = false;
+        this.renderer.renderQuilt = true;
+        this.renderer.render(this.scene, this.camera);
+
+        const dataUrl = this.renderer.webglRenderer.domElement.toDataURL('image/png');
+
+        this.renderer.renderQuilt = prevRenderQuilt;
+        this.renderer.render2d = prevRender2d;
+        this.renderer.render(this.scene, this.camera);
+
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'quilt.png';
+        link.click();
+    }
+
 }
 
 LKGPhotoViewer._DEFAULT_DOLLY = 2.9;

@@ -64,5 +64,8 @@ typings/
 
 ## Custom
 lkg-viewer/js/deps/**
+.yarn/
+.yarnrc.yml
+.pnp.*
 tmp
 dist/
