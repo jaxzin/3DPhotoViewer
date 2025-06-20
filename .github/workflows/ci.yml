@@ -45,8 +45,9 @@ jobs:
           git config user.email "actions@github.com"
           npm version patch --no-git-tag-version
           git add manifest.json package.json
-          git commit -m "chore: bump version to $(node -p \"require('./package.json').version\") [skip ci]"
-          git tag v$(node -p "require('./package.json').version")
+          VERSION=$(node -p "require('./package.json').version")
+          git commit -m "chore: bump version to ${VERSION} [skip ci]"
+          git tag "v${VERSION}"
           git push --follow-tags
       - name: Package extension
         run: npx grunt --gruntfile Gruntfile.cjs package
