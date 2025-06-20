@@ -32,9 +32,8 @@ pull requests and pushes to the `main` or `master` branches. The pipeline:
 5. Uploads the archive as a workflow artifact.
 
 When running on the `main` or `master` branch the workflow will also attempt to
-publish the packaged extension to the Chrome Web Store using
-`chrome-webstore-upload-cli`. Publishing requires the following secrets to be
-defined in the repository or organization settings:
+publish the packaged extension to the Chrome Web Store. Publishing requires the
+following secrets to be defined in the repository or organization settings:
 
 - `CHROME_EXTENSION_ID`
 - `CHROME_CLIENT_ID`
