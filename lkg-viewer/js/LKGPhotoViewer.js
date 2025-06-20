@@ -80,7 +80,7 @@ class LKGPhotoViewer {
         var loadedPhoto = this.scene.children[2];
         // Don't recalculate the matrix automatically, we're going to do some magic
         loadedPhoto.matrixAutoUpdate = false;
-        // Magic numbers to distort a Facebook 3D Photo properly for the Holoplay.Camera
+        // Magic numbers to distort a Facebook 3D Photo properly for the HoloPlay.Camera
         loadedPhoto.matrix.makePerspective(0.5,-0.5,-0.5,0.5,-3,2.5).multiply(this.selectedPhotoMatrix);
         loadedPhoto.matrix.elements[10] = LKGPhotoViewer._DEFAULT_DOLLY + this.dollyLocation;
     }
