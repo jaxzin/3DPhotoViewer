@@ -1,9 +1,18 @@
 {
   "name": "3D Photo Viewer for Looking Glass",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "3D Photo Viewer for the Looking Glass holographic display.",
-  "permissions": ["tabs", "webRequest", "declarativeContent", "storage", "system.display"],
-  "host_permissions": ["*://*.facebook.com/", "*://*.fbcdn.net/"],
+  "permissions": [
+    "tabs",
+    "webRequest",
+    "declarativeContent",
+    "storage",
+    "system.display"
+  ],
+  "host_permissions": [
+    "*://*.facebook.com/",
+    "*://*.fbcdn.net/"
+  ],
   "background": {
     "service_worker": "background.js"
   },
