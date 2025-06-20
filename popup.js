@@ -122,6 +122,11 @@ previousPhoto.onclick = function(element) {
     updateNav();
 };
 
+let downloadQuiltBtn = document.getElementById('downloadQuilt');
+downloadQuiltBtn.onclick = function(element) {
+    findViewerThen(function(viewer){ viewer.downloadQuilt(); });
+};
+
 let selectedPhoto = document.getElementById('selectedPhoto');
 let totalPhotos = document.getElementById('totalPhotos');
 let focalDistanceSlider = document.getElementById('focalDistance');

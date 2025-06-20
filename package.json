@@ -16,5 +16,8 @@
     "holoplay": "^1.0.3",
     "holoplay-gamepad": "^1.0.1",
     "three": "^0.137.0"
+  },
+  "scripts": {
+    "test": "node test/quiltExport.test.js"
   }
 }
