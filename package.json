@@ -20,7 +20,8 @@
     "three": "^0.137.0"
   },
   "scripts": {
-    "test": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "postversion": "node scripts/sync-manifest-version.cjs && git add manifest.json"
   },
   "type": "module"
 }
