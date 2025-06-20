@@ -31,8 +31,10 @@ tag is pushed. The pipeline:
 3. Executes `npm test` to run the Jest test suite.
 4. Builds a zip archive of the Chrome extension using Grunt.
 5. Uploads the archive as a workflow artifact.
-6. On the `main` or `master` branch a manual approval step can be used to bump
-   the patch version and create a tag for the next release.
+6. On the `main` or `master` branch a job running in the `production`
+   environment bumps the patch version and creates a tag for the next release.
+   Configure the `production` environment with required reviewers if manual
+   approval is desired.
 
 When a tag matching `v*` is pushed the workflow will attempt to publish the
 packaged extension to the Chrome Web Store. Publishing requires the following
