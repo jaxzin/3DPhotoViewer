@@ -47,5 +47,10 @@ jobs:
           CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-        run: npx chrome-webstore-upload --source dist/3DPhotoViewer-$(node -p "require('./package.json').version").zip
-
+        run: |
+          npx chrome-webstore-upload-cli upload \
+            --source dist/3DPhotoViewer-$(node -p "require('./package.json').version").zip \
+            --extension-id "$EXTENSION_ID" \
+            --client-id "$CLIENT_ID" \
+            --client-secret "$CLIENT_SECRET" \
+            --refresh-token "$REFRESH_TOKEN"
