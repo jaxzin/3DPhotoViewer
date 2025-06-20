@@ -8,7 +8,7 @@ Changelog
 
 ### 1.0.3 [2019-02-16]
 * Fixed bug in GamePad library that caused LKG inputs to not be found sometimes.
-* Fixed colorspace issue that caused photos to be to dark.
+* Fixed colorspace issue that caused photos to be too dark.
 * Added navigation controls from the popup.
 * Offline storage, no need for an Internet connection to browse photos once they've been downloaded.
 
