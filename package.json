@@ -10,11 +10,16 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-copy-deps": "^1.4.0",
     "grunt-curl": "^2.5.0",
-    "grunt-zip": "^0.18.1"
+    "grunt-zip": "^0.18.1",
+    "jest": "^30.0.2"
   },
   "dependencies": {
     "holoplay": "^1.0.3",
     "holoplay-gamepad": "^1.0.1",
     "three": "^0.137.0"
-  }
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "type": "module"
 }
