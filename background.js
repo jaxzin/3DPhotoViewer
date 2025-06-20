@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(function() {
                 pageUrl: {hostEquals: 'www.facebook.com'},
             })
             ],
-            actions: [new chrome.declarativeContent.ShowPageAction()]
+            actions: [new chrome.declarativeContent.ShowAction()]
         }]);
     });
 });
@@ -34,8 +34,9 @@ chrome.webRequest.onBeforeRequest.addListener(
                     });
 
                     chrome.tabs.query({title: 'Looking Glass Viewer for Facebook 3D Photos'}, function(tabs) {
-                        var windows = chrome.extension.getViews({tabId: tabs[0].id});
-                        windows[0].viewer.updatePhotos(photoURIs);
+                        tabs.forEach(function(tab) {
+                            chrome.tabs.sendMessage(tab.id, {type: 'updatePhotos', photoURIs: photoURIs});
+                        });
                     });
                 })
         }
