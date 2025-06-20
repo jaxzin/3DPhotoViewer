@@ -3,6 +3,12 @@ import LKGPhotoViewer from './LKGPhotoViewer.js';
 export let viewer = new LKGPhotoViewer(document);
 window.viewer = viewer;
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'updatePhotos') {
+        viewer.updatePhotos(message.photoURIs);
+    }
+});
+
 
 // var holoplayGamepad = new HoloPlayGamePad();
 //

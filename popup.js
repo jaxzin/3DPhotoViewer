@@ -60,7 +60,7 @@ function createViewerWindow() {
 
         if (holoplayDisplay) {
             chrome.windows.create({
-                url: chrome.extension.getURL("lkg-viewer/index.html"),
+                url: chrome.runtime.getURL("lkg-viewer/index.html"),
                 left: holoplayDisplay.bounds.left,
                 top: holoplayDisplay.bounds.top
             }, function (window) {
