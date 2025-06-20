@@ -1,6 +1,6 @@
 {
   "name": "lkg-3dphoto-viewer",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "main": "background.js",
   "repository": "git@github.com:jaxzin/3DPhotoViewer.git",
   "author": "Brian R. Jackson <brian@jaxzin.com>",
