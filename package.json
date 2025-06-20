@@ -6,7 +6,7 @@
   "author": "Brian R. Jackson <brian@jaxzin.com>",
   "license": "MIT",
   "devDependencies": {
-    "grunt": "^1.0.3",
+    "grunt": "^1.5.3",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-copy-deps": "^1.4.0",
     "grunt-curl": "^2.5.0",
@@ -16,7 +16,7 @@
   "dependencies": {
     "holoplay": "^1.0.3",
     "holoplay-gamepad": "^1.0.1",
-    "three": "^0.101.1"
+    "three": "^0.137.0"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
