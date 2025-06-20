@@ -12,7 +12,8 @@
     "grunt-copy-deps": "^1.4.0",
     "grunt-curl": "^2.5.0",
     "grunt-zip": "^0.18.1",
-    "jest": "^30.0.2"
+    "jest": "^30.0.2",
+    "jest-junit": "^16.0.0"
   },
   "dependencies": {
     "holoplay": "^1.0.3",
@@ -20,7 +21,7 @@
     "three": "^0.137.0"
   },
   "scripts": {
-    "test": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js --reporters=default --reporters=jest-junit",
     "version": "node scripts/sync-manifest-version.cjs && git add manifest.json"
   },
   "type": "module"
