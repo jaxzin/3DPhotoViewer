@@ -13,7 +13,8 @@
     "grunt-curl": "^2.5.0",
     "grunt-zip": "^0.18.1",
     "jest": "^30.0.2",
-    "jest-junit": "^16.0.0"
+    "jest-junit": "^16.0.0",
+    "puppeteer": "10.4.0"
   },
   "dependencies": {
     "holoplay": "^1.0.3",

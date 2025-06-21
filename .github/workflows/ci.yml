@@ -19,6 +19,14 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Install Puppeteer
+        run: yarn add --dev puppeteer
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+      - name: Run integration tests
+        uses: mujo-code/puppeteer-headful@v16.6.0
+        with:
+          args: node test/integration.test.js
       - name: Run tests
         run: npm test
         env:
