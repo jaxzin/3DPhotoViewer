@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run unit tests
@@ -39,6 +41,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run integration tests
@@ -55,6 +59,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Package extension
@@ -78,6 +84,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Bump patch version and tag
@@ -106,6 +114,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Package extension
