@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,27 +19,35 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install Puppeteer
-        run: yarn add --dev puppeteer
+      - name: Run unit tests
+        run: npm run test:unit
         env:
-          PUPPETEER_SKIP_DOWNLOAD: 'true'
-      - name: Run integration tests
-        uses: mujo-code/puppeteer-headful@v2
-        with:
-          args: node test/integration.test.js
-      - name: Run tests
-        run: npm test
-        env:
-          JEST_JUNIT_OUTPUT_FILE: ./test-results/junit.xml
-      - name: Upload test results
+          JEST_JUNIT_OUTPUT_FILE: ./test-results/unit-junit.xml
+      - name: Upload unit test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: test-results/junit.xml
+          name: unit-test-results
+          path: test-results/unit-junit.xml
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run integration tests
+        uses: mujo-code/puppeteer-headful@v2
+        with:
+          args: npm run test:integration
 
   build:
-    needs: test
+    needs: [unit, integration]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
