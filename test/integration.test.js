@@ -7,9 +7,9 @@ let browser;
 
 beforeAll(async () => {
   browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--allow-file-access-from-files', '--disable-dev-shm-usage'],
+    args: ['--no-sandbox', '--allow-file-access-from-files'],
     executablePath: process.env.PUPPETEER_EXEC_PATH,
-    headless: true,
+    headless: false,
   });
 });
 
