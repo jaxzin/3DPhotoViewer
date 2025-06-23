@@ -69,3 +69,4 @@ lkg-viewer/js/deps/**
 .pnp.*
 tmp
 dist/
+junit.xml

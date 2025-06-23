@@ -23,9 +23,10 @@
   },
   "scripts": {
     "test": "npm run test:unit",
-    "test:unit": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js tests --reporters=default --reporters=./node_modules/jest-junit",
-    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration.test.js --reporters=default --reporters=./node_modules/jest-junit",
+    "test:unit": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js tests",
+    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration.test.js",
     "version": "node scripts/sync-manifest-version.cjs && git add manifest.json"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "yarn@1.22.22"
 }
