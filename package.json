@@ -24,7 +24,7 @@
   "scripts": {
     "test": "npm run test:unit",
     "test:unit": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js tests",
-    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration.test.js",
+    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js -- test/integration.test.js",
     "version": "node scripts/sync-manifest-version.cjs && git add manifest.json"
   },
   "type": "module",
