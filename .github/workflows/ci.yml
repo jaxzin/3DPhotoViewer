@@ -21,6 +21,10 @@ jobs:
         run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Debug reporter install
+        run: |
+          npm ls jest-html-reporter
+          node -e "console.log('Reporter path:', require.resolve('jest-html-reporter'))"
       - name: Run unit tests
         run: npm run test:unit
         env:
@@ -47,6 +51,10 @@ jobs:
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
         run: yarn install --frozen-lockfile
+      - name: Debug reporter install
+        run: |
+          npm ls jest-html-reporter
+          node -e "console.log('Reporter path:', require.resolve('jest-html-reporter'))"
       - name: Run integration tests
         uses: mujo-code/puppeteer-headful@v2
         env:
