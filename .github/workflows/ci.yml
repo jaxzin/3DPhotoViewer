@@ -49,8 +49,17 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Run integration tests
         uses: mujo-code/puppeteer-headful@v2
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          JEST_JUNIT_OUTPUT_FILE: ./test-results/integration-junit.xml
         with:
-          args: npm run test:integration
+          args: npx jest test/integration.test.js
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results
+          path: test-results/integration-junit.xml
 
   build:
     needs: [unit, integration]
