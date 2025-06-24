@@ -70,3 +70,4 @@ lkg-viewer/js/deps/**
 tmp
 dist/
 junit.xml
+test-results/

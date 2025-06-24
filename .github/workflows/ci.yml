@@ -53,7 +53,7 @@ jobs:
           NODE_OPTIONS: --experimental-vm-modules
           JEST_JUNIT_OUTPUT_FILE: ./test-results/integration-junit.xml
         with:
-          args: npx jest --ci --reporters=default --testResultsProcessor=jest-junit test/integration.test.js
+          args: npx jest --ci --reporters=default --testResultsProcessor=./node_modules/jest-junit/index.js test/integration.test.js
       - name: Upload integration test results
         if: always()
         uses: actions/upload-artifact@v4
