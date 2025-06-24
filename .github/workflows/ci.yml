@@ -61,7 +61,8 @@ jobs:
           NODE_OPTIONS: --experimental-vm-modules
           JEST_HTML_REPORTER_OUTPUT_PATH: ./test-results/integration-report.html
         with:
-          args: npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js
+          args: >-
+            bash -c "node -v && node -e 'console.log(\"Reporter path\", require.resolve(\"jest-html-reporter\"))' && npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js"
       - name: Upload integration test results
         if: always()
         uses: actions/upload-artifact@v4
