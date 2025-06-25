@@ -35,6 +35,7 @@ jobs:
         with:
           name: unit-test-results
           path: test-results/unit-junit.xml
+          if-no-files-found: error
 
   integration:
     runs-on: ubuntu-latest
@@ -55,20 +56,28 @@ jobs:
         run: |
           npm ls jest-html-reporter
           node -e "console.log('Reporter path:', require.resolve('jest-html-reporter'))"
+      - name: Debug reporter path inside container
+        uses: mujo-code/puppeteer-headful@v2
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+        with:
+          args: node -e "console.log('Reporter path in container:', require.resolve('jest-html-reporter'))"
       - name: Run integration tests
         uses: mujo-code/puppeteer-headful@v2
         env:
           NODE_OPTIONS: --experimental-vm-modules
           JEST_HTML_REPORTER_OUTPUT_PATH: ./test-results/integration-report.html
         with:
-          args: >-
-            bash -c "node -v && node -e 'console.log(\"Reporter path\", require.resolve(\"jest-html-reporter\"))' && npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js"
+          args: npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js
+      - name: Verify integration report
+        run: test -f test-results/integration-report.html
       - name: Upload integration test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: integration-test-results
           path: test-results/integration-report.html
+          if-no-files-found: error
 
   build:
     needs: [unit, integration]

@@ -24,7 +24,7 @@
   },
   "scripts": {
     "test": "npm run test:unit",
-    "test:unit": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js tests",
+    "test:unit": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js tests --reporters=default --reporters=jest-junit",
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js",
     "version": "node scripts/sync-manifest-version.cjs && git add manifest.json"
   },
