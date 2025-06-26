@@ -62,7 +62,7 @@ jobs:
           NODE_OPTIONS: --experimental-vm-modules
         with:
           args: >-
-            node -e "console.log('Reporter path in container:', require.resolve('jest-html-reporter'))"
+            bash -c "node -e \"console.log('Reporter path in container:', require.resolve('jest-html-reporter'))\""
       - name: Run integration tests
         uses: mujo-code/puppeteer-headful@v2
         env:
