@@ -6,11 +6,10 @@ jest.setTimeout(20000);
 let browser;
 
 beforeAll(async () => {
-  const headless = process.env.DISPLAY ? false : true;
   browser = await puppeteer.launch({
     args: ['--no-sandbox', '--allow-file-access-from-files'],
     executablePath: process.env.PUPPETEER_EXEC_PATH,
-    headless,
+    headless: false,
   });
 });
 
