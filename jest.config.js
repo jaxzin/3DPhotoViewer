@@ -1,3 +1,4 @@
+// Jest config with reporters specified via CLI
 export default {
   testEnvironment: 'node',
   transform: {},

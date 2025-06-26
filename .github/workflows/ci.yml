@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,21 +17,70 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Run tests
-        run: npm test
+      - name: Debug reporter install
+        run: |
+          npm ls jest-html-reporter
+          node -e "console.log('Reporter path:', require.resolve('jest-html-reporter'))"
+      - name: Run unit tests
+        run: npm run test:unit
         env:
-          JEST_JUNIT_OUTPUT_FILE: ./test-results/junit.xml
-      - name: Upload test results
+          JEST_JUNIT_OUTPUT_FILE: ./test-results/unit-junit.xml
+      - name: Upload unit test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: test-results/junit.xml
+          name: unit-test-results
+          path: test-results/unit-junit.xml
+          if-no-files-found: error
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
+      - name: Install dependencies
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+        run: yarn install --frozen-lockfile
+      - name: Debug reporter install
+        run: |
+          npm ls jest-html-reporter
+          node -e "console.log('Reporter path:', require.resolve('jest-html-reporter'))"
+      - name: Debug reporter path inside container
+        uses: mujo-code/puppeteer-headful@v2
+        env:
+          NODE_OPTIONS: "--require /github/workspace/.pnp.cjs --experimental-vm-modules"
+        with:
+          args: node scripts/print-reporter-path.cjs
+      - name: Run integration tests
+        uses: mujo-code/puppeteer-headful@v2
+        env:
+          NODE_OPTIONS: "--require /github/workspace/.pnp.cjs --experimental-vm-modules"
+          JEST_HTML_REPORTER_OUTPUT_PATH: ./test-results/integration-report.html
+        with:
+          args: npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js
+      - name: Verify integration report
+        run: test -f test-results/integration-report.html
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results
+          path: test-results/integration-report.html
+          if-no-files-found: error
 
   build:
-    needs: test
+    needs: [unit, integration]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +88,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Package extension
@@ -62,6 +113,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Bump patch version and tag
@@ -90,6 +143,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - name: Use Yarn v1
+        run: npm install -g yarn@1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Package extension
