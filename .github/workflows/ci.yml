@@ -59,13 +59,13 @@ jobs:
       - name: Debug reporter path inside container
         uses: mujo-code/puppeteer-headful@v2
         env:
-          NODE_OPTIONS: --experimental-vm-modules
+          NODE_OPTIONS: "--require /github/workspace/.pnp.cjs --experimental-vm-modules"
         with:
           args: node scripts/print-reporter-path.cjs
       - name: Run integration tests
         uses: mujo-code/puppeteer-headful@v2
         env:
-          NODE_OPTIONS: --experimental-vm-modules
+          NODE_OPTIONS: "--require /github/workspace/.pnp.cjs --experimental-vm-modules"
           JEST_HTML_REPORTER_OUTPUT_PATH: ./test-results/integration-report.html
         with:
           args: npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js
