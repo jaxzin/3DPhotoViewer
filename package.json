@@ -13,7 +13,9 @@
     "grunt-curl": "^2.5.0",
     "grunt-zip": "^0.18.1",
     "jest": "^30.0.2",
-    "jest-junit": "^16.0.0"
+    "jest-html-reporter": "^3.6.0",
+    "jest-junit": "^16.0.0",
+    "puppeteer": "10.4.0"
   },
   "dependencies": {
     "holoplay": "^1.0.3",
@@ -21,8 +23,11 @@
     "three": "^0.137.0"
   },
   "scripts": {
-    "test": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js --reporters=default --reporters=jest-junit",
+    "test": "npm run test:unit",
+    "test:unit": "node test/quiltExport.test.js && node --experimental-vm-modules node_modules/jest/bin/jest.js tests --reporters=default --reporters=jest-junit",
+    "test:integration": "npx jest --ci --reporters=default --reporters=jest-html-reporter -- test/integration.test.js",
     "version": "node scripts/sync-manifest-version.cjs && git add manifest.json"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "yarn@1.22.22"
 }
