@@ -1,0 +1,19 @@
+Scanning for a Pixels die named 'Brian PD6'...
+Found die: Brian PD6 (BB7C26A7-B412-7D83-06B4-6743B8551443)
+Successfully connected to the die.
+
+Listening for rolls... (Press Ctrl+C to stop)
+Listening for data for 15 seconds...
+Received data: 030504
+Received data: 226200
+Received data: 030300
+Received data: 030301
+Received data: 030101
+Received data: 030502
+Received data: 030302
+Received data: 030304
+Received data: 030104
+Received data: 030500
+Received data: 030303
+Received data: 030103
+Stopping listener.

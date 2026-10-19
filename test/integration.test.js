@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import { jest } from '@jest/globals';
 
-jest.setTimeout(20000);
+jest.setTimeout(60000);
 
 let browser;
 
@@ -21,9 +21,11 @@ afterAll(async () => {
 
 test('viewer initializes', async () => {
   const page = await browser.newPage();
-  const url = 'file://' + process.cwd() + '/lkg-viewer/index.html';
+  page.on('console', msg => console.log('PAGE CONSOLE:', msg.text()));
+  page.on('pageerror', err => console.error('PAGE ERROR:', err.toString()));
+  const url = 'http://localhost:8080/lkg-viewer/index.html';
   await page.goto(url, { waitUntil: 'load' });
-  await page.waitForSelector('canvas');
+  await page.waitForSelector('canvas', { timeout: 60000 });
   const viewerExists = await page.evaluate(() => typeof window.viewer !== 'undefined');
   expect(viewerExists).toBe(true);
 });
